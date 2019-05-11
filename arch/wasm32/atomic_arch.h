@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#define a_ctz_l a_ctz_l
-static inline int a_ctz_l(unsigned long x)
+#define a_ctz_32 a_ctz_32
+static inline int a_ctz_32(unsigned long x)
 {
 	if (x == 0)
 		return 32;
@@ -22,9 +22,9 @@ static inline int a_ctz_64(uint64_t x)
 {
 	uint32_t lo = (uint32_t)x;
 	if (lo == 0)
-		return a_ctz_l((unsigned long)(x >> 32)) + 32;
+		return a_ctz_32((unsigned long)(x >> 32)) + 32;
 	else
-		return a_ctz_l((unsigned long)lo);
+		return a_ctz_32((unsigned long)lo);
 }
 
 #define a_and_64 a_and_64
