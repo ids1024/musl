@@ -17,6 +17,11 @@ includedir = $(prefix)/include
 libdir = $(prefix)/lib
 syslibdir = /lib
 
+# FIXME some of these should not be disabled
+SKIP_DIRS = linux network process aio passwd time mq conf legacy ldso temp signal ipc select thread
+SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c posix_fadvise.c initgroups.c setrlimit.c getentropy.c faccessat.c tmpnam.c tempnam.c tmpfile.c ualarm.c ualarm.c msync.c set*id.c setpgrp.c login_tty.c __init_tls.c dcngettext.c textdomain.c locale_map.c newlocale.c setlocale.c freelocale.c __reset_tls.c
+SKIP_OBJS = $(patsubst %.c,%.o,$(wildcard $(patsubst %,src/%/*.c,$(SKIP_DIRS)) $(patsubst %,%/*.c,$(SKIP_DIRS)) $(patsubst %,*/%,$(SKIP_FILES)) $(patsubst %,src/*/%,$(SKIP_FILES))))
+
 SRC_DIRS = $(addprefix $(srcdir)/,src/* crt ldso)
 BASE_GLOBS = $(addsuffix /*.c,$(SRC_DIRS))
 ARCH_GLOBS = $(addsuffix /$(ARCH)/*.[csS],$(SRC_DIRS))
@@ -25,7 +30,7 @@ ARCH_SRCS = $(sort $(wildcard $(ARCH_GLOBS)))
 BASE_OBJS = $(patsubst $(srcdir)/%,%.o,$(basename $(BASE_SRCS)))
 ARCH_OBJS = $(patsubst $(srcdir)/%,%.o,$(basename $(ARCH_SRCS)))
 REPLACED_OBJS = $(sort $(subst /$(ARCH)/,/,$(ARCH_OBJS)))
-ALL_OBJS = $(addprefix obj/, $(filter-out $(REPLACED_OBJS), $(sort $(BASE_OBJS) $(ARCH_OBJS))))
+ALL_OBJS = $(addprefix obj/, $(filter-out $(REPLACED_OBJS) $(SKIP_OBJS), $(sort $(BASE_OBJS) $(ARCH_OBJS))))
 
 LIBC_OBJS = $(filter obj/src/%,$(ALL_OBJS))
 LDSO_OBJS = $(filter obj/ldso/%,$(ALL_OBJS:%.o=%.lo))
@@ -39,11 +44,11 @@ IMPH = $(addprefix $(srcdir)/, src/internal/stdio_impl.h src/internal/pthread_im
 
 LDFLAGS =
 LDFLAGS_AUTO =
-LIBCC = -lgcc
+LIBCC =
 CPPFLAGS =
 CFLAGS =
 CFLAGS_AUTO = -Os -pipe
-CFLAGS_C99FSE = -std=c99 -ffreestanding -nostdinc 
+CFLAGS_C99FSE = -std=gnu99 -ffreestanding -nostdinc 
 
 CFLAGS_ALL = $(CFLAGS_C99FSE)
 CFLAGS_ALL += -D_XOPEN_SOURCE=700 -I$(srcdir)/arch/$(ARCH) -I$(srcdir)/arch/generic -Iobj/src/internal -I$(srcdir)/src/include -I$(srcdir)/src/internal -Iobj/include -I$(srcdir)/include
@@ -158,7 +163,7 @@ obj/%.lo: $(srcdir)/%.c $(GENH) $(IMPH)
 
 lib/libc.so: $(LOBJS) $(LDSO_OBJS)
 	$(CC) $(CFLAGS_ALL) $(LDFLAGS_ALL) -nostdlib -shared \
-	-Wl,-e,_dlstart -o $@ $(LOBJS) $(LDSO_OBJS) $(LIBCC)
+	 -o $@ $(LOBJS) $(LDSO_OBJS) $(LIBCC)
 
 lib/libc.a: $(AOBJS)
 	rm -f $@

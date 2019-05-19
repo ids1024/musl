@@ -3,7 +3,6 @@
 
 hidden void __lock(volatile int *);
 hidden void __unlock(volatile int *);
-#define LOCK(x) __lock(x)
-#define UNLOCK(x) __unlock(x)
-
+#define LOCK(x) ((void)x)
+#define UNLOCK(x) ((void)x)
 #endif

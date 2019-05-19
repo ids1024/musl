@@ -54,8 +54,8 @@ hidden long __syscall_ret(unsigned long),
 #define __syscall_cp5(n,a,b,c,d,e) (__syscall_cp)(n,__scc(a),__scc(b),__scc(c),__scc(d),__scc(e),0)
 #define __syscall_cp6(n,a,b,c,d,e,f) (__syscall_cp)(n,__scc(a),__scc(b),__scc(c),__scc(d),__scc(e),__scc(f))
 
-#define __syscall_cp(...) __SYSCALL_DISP(__syscall_cp,__VA_ARGS__)
-#define syscall_cp(...) __syscall_ret(__syscall_cp(__VA_ARGS__))
+#define __syscall_cp(...) __SYSCALL_DISP(__syscall,__VA_ARGS__)
+#define syscall_cp(...) __syscall_ret(__syscall(__VA_ARGS__))
 
 #ifndef SYSCALL_USE_SOCKETCALL
 #define __socketcall(nm,a,b,c,d,e,f) syscall(SYS_##nm, a, b, c, d, e, f)
@@ -231,8 +231,8 @@ hidden long __syscall_ret(unsigned long),
 #define __sys_open(...) __SYSCALL_DISP(__sys_open,,__VA_ARGS__)
 #define sys_open(...) __syscall_ret(__sys_open(__VA_ARGS__))
 
-#define __sys_open_cp(...) __SYSCALL_DISP(__sys_open_cp,,__VA_ARGS__)
-#define sys_open_cp(...) __syscall_ret(__sys_open_cp(__VA_ARGS__))
+#define __sys_open_cp(...) __SYSCALL_DISP(__sys_open,,__VA_ARGS__)
+#define sys_open_cp(...) __syscall_ret(__sys_open(__VA_ARGS__))
 
 hidden void __procfdname(char __buf[static 15+3*sizeof(int)], unsigned);
 

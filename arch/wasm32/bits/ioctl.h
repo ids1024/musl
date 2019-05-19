@@ -87,13 +87,6 @@
 
 #define TIOCSER_TEMT    0x01
 
-struct winsize {
-	unsigned short ws_row;
-	unsigned short ws_col;
-	unsigned short ws_xpixel;
-	unsigned short ws_ypixel;
-};
-
 #define TIOCM_LE        0x001
 #define TIOCM_DTR       0x002
 #define TIOCM_RTS       0x004

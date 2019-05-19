@@ -89,7 +89,7 @@ int pthread_equal(pthread_t, pthread_t);
 #define pthread_equal(x,y) ((x)==(y))
 #endif
 
-int pthread_setcancelstate(int, int *);
+#define pthread_setcancelstate(a, b) ((void)a, (void)b);
 int pthread_setcanceltype(int, int *);
 void pthread_testcancel(void);
 int pthread_cancel(pthread_t);

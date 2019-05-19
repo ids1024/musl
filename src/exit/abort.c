@@ -10,6 +10,8 @@ hidden volatile int __abort_lock[1];
 
 _Noreturn void abort(void)
 {
+	asm("unreachable");
+#if 0
 	raise(SIGABRT);
 
 	/* If there was a SIGABRT handler installed and it returned, or if
@@ -29,4 +31,5 @@ _Noreturn void abort(void)
 	a_crash();
 	raise(SIGKILL);
 	_Exit(127);
+#endif
 }

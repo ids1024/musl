@@ -44,7 +44,7 @@ locale_t __newlocale(int mask, const char *name, locale_t loc)
 
 	/* And provide builtins for the initial default locale, and a
 	 * variant of the C locale honoring the default locale's encoding. */
-	pthread_once(&default_locale_once, default_locale_init);
+	default_locale_init();
 	if (!memcmp(&tmp, &default_locale, sizeof tmp)) return &default_locale;
 	if (!memcmp(&tmp, &default_ctype_locale, sizeof tmp))
 		return &default_ctype_locale;

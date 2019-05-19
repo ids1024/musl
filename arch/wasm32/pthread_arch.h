@@ -1,4 +1,9 @@
-static inline struct pthread *__pthread_self(void) { return pthread_self(); }
+static struct pthread __pthread;
+
+static inline struct pthread *__pthread_self(void) {
+  // TODO: multiple threads
+  return &__pthread;
+}
 
 #define TP_ADJ(p) (p)
 
