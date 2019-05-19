@@ -18,9 +18,9 @@ libdir = $(prefix)/lib
 syslibdir = /lib
 
 # FIXME some of these should not be disabled
-SKIP_DIRS = linux network process aio passwd time mq conf legacy ldso temp signal ipc select thread
-UNSKIP_FILES = htons.c htonl.c ntohs.c ntohl.c
-SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c posix_fadvise.c initgroups.c setrlimit.c getentropy.c faccessat.c tmpnam.c tempnam.c tmpfile.c ualarm.c msync.c set*id.c setpgrp.c login_tty.c __init_tls.c dcngettext.c textdomain.c locale_map.c newlocale.c setlocale.c freelocale.c __reset_tls.c
+SKIP_DIRS = linux network process aio passwd mq conf legacy ldso signal ipc select thread
+UNSKIP_FILES = htons.c htonl.c ntohs.c ntohl.c inet_aton.c inet_ntoa.c inet_ntop.c inet_ntop.c
+SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c posix_fadvise.c initgroups.c setrlimit.c getentropy.c faccessat.c ualarm.c msync.c set*id.c setpgrp.c login_tty.c __init_tls.c dcngettext.c textdomain.c locale_map.c newlocale.c setlocale.c freelocale.c __reset_tls.c timer_create.c
 SKIP_SRCS = $(wildcard $(SKIP_DIRS:%=src/%/*.c) \
 		       $(SKIP_DIRS:%=%/*.c) \
 		       $(SKIP_FILES:%=*/%) \
