@@ -20,7 +20,7 @@ TYPEDEF unsigned _Int64 uintmax_t;
 
 TYPEDEF unsigned mode_t;
 TYPEDEF unsigned _Reg nlink_t;
-TYPEDEF _Int64 off_t;
+TYPEDEF signed int off_t;
 TYPEDEF unsigned _Int64 ino_t;
 TYPEDEF unsigned _Int64 dev_t;
 TYPEDEF long blksize_t;
