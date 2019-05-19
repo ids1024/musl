@@ -19,8 +19,16 @@ syslibdir = /lib
 
 # FIXME some of these should not be disabled
 SKIP_DIRS = linux network process aio passwd time mq conf legacy ldso temp signal ipc select thread
-SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c posix_fadvise.c initgroups.c setrlimit.c getentropy.c faccessat.c tmpnam.c tempnam.c tmpfile.c ualarm.c ualarm.c msync.c set*id.c setpgrp.c login_tty.c __init_tls.c dcngettext.c textdomain.c locale_map.c newlocale.c setlocale.c freelocale.c __reset_tls.c
-SKIP_OBJS = $(patsubst %.c,%.o,$(wildcard $(patsubst %,src/%/*.c,$(SKIP_DIRS)) $(patsubst %,%/*.c,$(SKIP_DIRS)) $(patsubst %,*/%,$(SKIP_FILES)) $(patsubst %,src/*/%,$(SKIP_FILES))))
+UNSKIP_FILES = htons.c htonl.c ntohs.c ntohl.c
+SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c posix_fadvise.c initgroups.c setrlimit.c getentropy.c faccessat.c tmpnam.c tempnam.c tmpfile.c ualarm.c msync.c set*id.c setpgrp.c login_tty.c __init_tls.c dcngettext.c textdomain.c locale_map.c newlocale.c setlocale.c freelocale.c __reset_tls.c
+SKIP_SRCS = $(wildcard $(SKIP_DIRS:%=src/%/*.c) \
+		       $(SKIP_DIRS:%=%/*.c) \
+		       $(SKIP_FILES:%=*/%) \
+		       $(SKIP_FILES:%=src/*/%))
+UNSKIP_SRCS = $(wildcard $(UNSKIP_FILES:%=*/%) \
+                         $(UNSKIP_FILES:%=src/*/%))
+SKIP_OBJS = $(filter-out $(UNSKIP_SRCS:.c=.o), \
+	                 $(SKIP_SRCS:.c=.o))
 
 SRC_DIRS = $(addprefix $(srcdir)/,src/* crt ldso)
 BASE_GLOBS = $(addsuffix /*.c,$(SRC_DIRS))
