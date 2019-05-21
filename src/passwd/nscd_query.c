@@ -17,6 +17,7 @@ static const struct {
 
 FILE *__nscd_query(int32_t req, const char *key, int32_t *buf, size_t len, int *swap)
 {
+#if 0
 	size_t i;
 	int fd;
 	FILE *f = 0;
@@ -103,5 +104,7 @@ retry:
 	return f;
 error:
 	fclose(f);
+#endif
+	errno = EIO;
 	return 0;
 }
