@@ -9,15 +9,18 @@
 #include "atomic.h"
 #include "syscall.h"
 
+// XXX single thread
+struct pthread __pthread;
+
 volatile int __thread_list_lock;
 
 int __init_tp(void *p)
 {
 	pthread_t td = p;
 	td->self = td;
-	int r = __set_thread_area(TP_ADJ(p));
-	if (r < 0) return -1;
-	if (!r) libc.can_do_threads = 1;
+	//int r = __set_thread_area(TP_ADJ(p));
+	//if (r < 0) return -1;
+	//if (!r) libc.can_do_threads = 1;
 	td->detach_state = DT_JOINABLE;
 	td->tid = __syscall(SYS_set_tid_address, &__thread_list_lock);
 	td->locale = &libc.global_locale;
@@ -95,11 +98,13 @@ static void static_init_tls(size_t *aux)
 			base = (size_t)_DYNAMIC - phdr->p_vaddr;
 		if (phdr->p_type == PT_TLS)
 			tls_phdr = phdr;
+#if 0
 		if (phdr->p_type == PT_GNU_STACK &&
 		    phdr->p_memsz > __default_stacksize)
 			__default_stacksize =
 				phdr->p_memsz < DEFAULT_STACK_MAX ?
 				phdr->p_memsz : DEFAULT_STACK_MAX;
+#endif
 	}
 
 	if (tls_phdr) {
@@ -145,7 +150,7 @@ static void static_init_tls(size_t *aux)
 	}
 
 	/* Failure to initialize thread pointer is always fatal. */
-	if (__init_tp(__copy_tls(mem)) < 0)
+	if (__init_tp(__pthread_self()) < 0)
 		a_crash();
 }
 

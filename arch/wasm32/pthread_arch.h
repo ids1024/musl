@@ -1,4 +1,4 @@
-static struct pthread __pthread;
+extern struct pthread __pthread;
 
 static inline struct pthread *__pthread_self(void) {
   // TODO: multiple threads
