@@ -237,7 +237,8 @@ static int pretrim(struct chunk *self, size_t n, int i, int j)
 	if (j < i+3) {
 		if (j != 63) return 0;
 		n1 = CHUNK_SIZE(self);
-		if (n1-n <= MMAP_THRESHOLD) return 0;
+		//if (n1-n <= MMAP_THRESHOLD) return 0;
+		if (1) return 0;
 	} else {
 		n1 = CHUNK_SIZE(self);
 	}
@@ -282,7 +283,8 @@ void *malloc(size_t n)
 
 	if (adjust_size(&n) < 0) return 0;
 
-	if (n > MMAP_THRESHOLD) {
+	//if (n > MMAP_THRESHOLD) {
+	if (0) {
 		size_t len = n + OVERHEAD + PAGE_SIZE - 1 & -PAGE_SIZE;
 		char *base = __mmap(0, len, PROT_READ|PROT_WRITE,
 			MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
