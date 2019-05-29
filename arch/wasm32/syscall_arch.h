@@ -43,3 +43,4 @@ static __inline long __syscall6(long n, long a1, long a2, long a3, long a4, long
 }
 
 #define SYSCALL_USE_SOCKETCALL
+#define SYSCALL_FADVISE_6_ARG
