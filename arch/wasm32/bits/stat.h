@@ -19,7 +19,6 @@ struct stat
 	off_t st_size;
 	off_t __st_size_pad;
 	blksize_t st_blksize;
-	blksize_t __st_blksize_pad;
 	blkcnt_t st_blocks;
 	blkcnt_t __st_blocks_pad;
 
