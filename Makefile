@@ -19,7 +19,7 @@ syslibdir = /lib
 
 # FIXME some of these should not be disabled
 SKIP_DIRS = linux process aio mq conf ldso ipc select thread
-UNSKIP_FILES = utimes.c wait.c waitpid.c
+UNSKIP_FILES = utimes.c wait.c waitpid.c exec*.c
 SKIP_FILES = sleep.c usleep.c popen.c syslog.c forkpty.c wordexp.c initgroups.c getentropy.c faccessat.c ualarm.c login_tty.c dcngettext.c textdomain.c timer_create.c siglongjmp.c sigprocmask.c sighold.c sigpause.c sigrelse.c sigset.c res_*.c get*info*.c lookup_name.c get*by*.c daemon.c euidaccess.c getloadavg.c
 SKIP_SRCS = $(wildcard $(SKIP_DIRS:%=src/%/*.c) \
 		       $(SKIP_DIRS:%=%/*.c) \
